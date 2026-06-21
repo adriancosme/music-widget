@@ -52,7 +52,7 @@ Si abres `http://localhost:5173` en tu navegador y no has configurado las variab
 2. En OBS Studio, añade una nueva fuente de tipo **Navegador (Browser Source)**.
 3. En el campo URL escribe:
    `http://localhost:5173/` (o la URL de tu hosting si lo subiste a Vercel/Cloudflare Pages).
-4. Configura el **Ancho** en `340` y el **Alto** en `120` (adecuado para el tamaño del widget).
+4. Configura el **Ancho** en `350` y el **Alto** en `140` (adecuado para el nuevo tamaño del widget).
 5. Marca la casilla **Refrescar navegador cuando la escena se active** para asegurarte de que empiece a buscar música inmediatamente al cambiar de escena.
 6. Si deseas que el fondo sea totalmente transparente, asegúrate de que el CSS personalizado de OBS no sobrescriba el fondo o añade opacidad si lo deseas.
 
