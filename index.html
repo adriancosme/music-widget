@@ -68,9 +68,11 @@
             "on-tertiary-fixed": "#191c1e"
           },
           "borderRadius": {
-            "DEFAULT": "0.25rem",
-            "lg": "0.5rem",
-            "xl": "0.75rem",
+            "sm": "0.25rem",
+            "DEFAULT": "0.5rem",
+            "md": "0.75rem",
+            "lg": "1.0rem",
+            "xl": "1.5rem",
             "full": "9999px"
           },
           "spacing": {
@@ -114,27 +116,27 @@
     <div class="flex flex-col gap-3 mt-2">
       <div>
         <label for="input-username" class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-1">Nombre de Usuario Last.fm</label>
-        <input type="text" id="input-username" placeholder="Ej: tu_usuario" class="w-full bg-surface/50 border border-outline rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        <input type="text" id="input-username" placeholder="Ej: tu_usuario" class="w-full bg-surface/50 border border-outline rounded px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
       </div>
       <div>
         <label for="input-apikey" class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-1">Last.fm API Key</label>
-        <input type="password" id="input-apikey" placeholder="Ej: f4b192..." class="w-full bg-surface/50 border border-outline rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        <input type="password" id="input-apikey" placeholder="Ej: f4b192..." class="w-full bg-surface/50 border border-outline rounded px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
         <p class="text-[10px] text-primary mt-1">Obtén una clave gratis en <a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener noreferrer" aria-label="Obtén una clave de API de Last.fm (abre en una nueva pestaña)" class="underline hover:text-white focus:outline-none focus:ring-1 focus:ring-primary rounded px-0.5 transition-colors">last.fm/api/account/create</a></p>
       </div>
       
-      <button id="btn-save-config" class="w-full bg-primary text-on-primary-fixed font-semibold py-2 rounded-lg text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-container focus:ring-primary transition-all mt-2 shadow-[0_0_15px_rgba(210,187,255,0.3)]">
+      <button id="btn-save-config" class="w-full bg-primary text-on-primary-fixed font-semibold py-2 rounded text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-container focus:ring-primary transition-all mt-2 shadow-[0_0_15px_rgba(210,187,255,0.3)]">
         Guardar y Conectar
       </button>
     </div>
   </section>
 
   <!-- The OBS Widget (centered) -->
-  <section id="obs-widget" aria-label="Widget de música en reproducción" class="w-widget-width bg-surface-container/90 backdrop-blur-xl border border-white/15 rounded-xl p-inline-gap flex flex-col gap-inline-gap shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative group overflow-hidden">
+  <section id="obs-widget" aria-label="Widget de música en reproducción" class="w-widget-width bg-surface/10 backdrop-blur-md border border-white/10 rounded p-container-padding flex flex-col gap-element-gap shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative group overflow-hidden">
     <!-- Subtle gradient background flare -->
     <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
     <div class="flex items-center gap-element-gap relative z-10 w-full">
       <!-- Album Art -->
-      <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 relative border border-white/5 shadow-[inset_0_0_10px_rgba(255,255,255,0.05)] bg-surface-container">
+      <div class="w-16 h-16 rounded-sm overflow-hidden shrink-0 relative border border-white/5 shadow-[inset_0_0_10px_rgba(255,255,255,0.05)] bg-surface-container">
         <img id="widget-art" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn0CuE2hZ5hXTzr17LyM5ShhjY5tCrF4OKR24-KywetaoSqurZnuCqpd9_4wAyeZX0Ulzy7N1BgbxTOpPn8Kb-3oWB1TWf5UKyUd14-ctTmWTVHSkS4DkjQyPtw9p9EBFNMbQrhHvhB1eKlBuRZ_EXKXKD0fp_qGb09YbMwGABqlos6BEfx6uO-9mSrvNqt7t3I4kCSf3wIT_1LEb0Sw2VupbAeEare018RS8Ft0HKQ7pIDZg0A_G5GyBDM-XiI7o5NJZHQueOjS0" alt="Portada del álbum"/>
         <!-- Inner glow overlay -->
         <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent pointer-events-none"></div>
@@ -171,8 +173,11 @@
     </div>
     
     <!-- Progress Bar (Fake smooth animation or empty for simplified OBS) -->
-    <div id="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" class="w-full h-1 bg-white/35 rounded-full relative z-10 overflow-hidden">
-      <div id="widget-progress" class="absolute left-0 top-0 h-full bg-gradient-to-r from-primary to-secondary rounded-full w-[0%] transition-all duration-1000 ease-linear"></div>
+    <div id="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" class="w-full h-1 bg-white/20 rounded-full relative z-10 group/progress cursor-pointer overflow-visible">
+      <div id="widget-progress" class="absolute left-0 top-0 h-full bg-gradient-to-r from-primary to-secondary rounded-full w-[0%] transition-all duration-1000 ease-linear">
+        <!-- Scrub Thumb (Visible on hover) -->
+        <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/2 w-2.5 h-2.5 bg-white rounded-full opacity-0 group-hover/progress:opacity-100 transition-opacity shadow-[0_0_8px_rgba(255,255,255,0.8)] pointer-events-none"></div>
+      </div>
     </div>
   </section>
 
