@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>TIDAL OBS Widget</title>
+  
+  <!-- Tailwind CDN (matching mockup) -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+  
+  <!-- Tailwind Config (from mockup) -->
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "error": "#ffb4ab",
+            "on-surface-variant": "#ccc3d8",
+            "tertiary": "#c4c7c9",
+            "tertiary-container": "#646769",
+            "on-primary-fixed": "#25005a",
+            "primary-fixed-dim": "#d2bbff",
+            "inverse-primary": "#732ee4",
+            "primary-container": "#7c3aed",
+            "surface-variant": "#2d3449",
+            "on-background": "#dae2fd",
+            "secondary-fixed": "#acedff",
+            "on-tertiary": "#2d3133",
+            "tertiary-fixed-dim": "#c4c7c9",
+            "tertiary-fixed": "#e0e3e5",
+            "on-primary-fixed-variant": "#5a00c6",
+            "surface-dim": "#0b1326",
+            "on-tertiary-container": "#e4e6e8",
+            "surface-container-low": "#131b2e",
+            "on-secondary": "#003640",
+            "surface": "#0b1326",
+            "surface-container-lowest": "#060e20",
+            "background": "#0b1326",
+            "primary-fixed": "#eaddff",
+            "secondary": "#4cd7f6",
+            "secondary-container": "#03b5d3",
+            "on-primary": "#3f008e",
+            "surface-container": "#171f33",
+            "inverse-surface": "#dae2fd",
+            "on-secondary-container": "#00424e",
+            "surface-bright": "#31394d",
+            "surface-tint": "#d2bbff",
+            "outline": "#958da1",
+            "on-error-container": "#ffdad6",
+            "on-secondary-fixed": "#001f26",
+            "surface-container-high": "#222a3d",
+            "on-surface": "#dae2fd",
+            "error-container": "#93000a",
+            "on-secondary-fixed-variant": "#004e5c",
+            "inverse-on-surface": "#283044",
+            "on-error": "#690005",
+            "surface-container-highest": "#2d3449",
+            "on-primary-container": "#ede0ff",
+            "primary": "#d2bbff",
+            "outline-variant": "#4a4455",
+            "on-tertiary-fixed-variant": "#444749",
+            "secondary-fixed-dim": "#4cd7f6",
+            "on-tertiary-fixed": "#191c1e"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "text-stack": "0.25rem",
+            "element-gap": "0.75rem",
+            "inline-gap": "0.5rem",
+            "container-padding": "1rem",
+            "widget-width": "320px"
+          },
+          "fontFamily": {
+            "time-code": ["Inter"],
+            "artist-name": ["Inter"],
+            "track-title": ["Inter"],
+            "metadata": ["Inter"]
+          },
+          "fontSize": {
+            "time-code": ["10px", { "lineHeight": "12px", "letterSpacing": "0.05em", "fontWeight": "700" }],
+            "artist-name": ["13px", { "lineHeight": "16px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "track-title": ["16px", { "lineHeight": "20px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "metadata": ["11px", { "lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500" }]
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" href="/src/style.css" />
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-on-surface antialiased">
+
+  <!-- Setup/Configuration Card (Hidden when user & key are configured) -->
+  <section id="config-card" aria-labelledby="config-title" class="hidden w-full max-w-md bg-surface-container/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 flex flex-col gap-4 shadow-[0_8px_32px_rgba(0,0,0,0.5)] z-20">
+    <div class="flex items-center gap-2">
+      <span class="material-symbols-outlined text-primary text-3xl" aria-hidden="true">settings</span>
+      <div>
+        <h2 id="config-title" class="text-lg font-bold text-white">Configurar Widget OBS</h2>
+        <p class="text-xs text-on-surface-variant">Conecta tu cuenta de Last.fm para leer tu música en vivo.</p>
+      </div>
+    </div>
+    
+    <div class="flex flex-col gap-3 mt-2">
+      <div>
+        <label for="input-username" class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-1">Nombre de Usuario Last.fm</label>
+        <input type="text" id="input-username" placeholder="Ej: tu_usuario" class="w-full bg-surface/50 border border-outline rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+      </div>
+      <div>
+        <label for="input-apikey" class="block text-xs font-semibold uppercase tracking-wider text-on-surface-variant mb-1">Last.fm API Key</label>
+        <input type="password" id="input-apikey" placeholder="Ej: f4b192..." class="w-full bg-surface/50 border border-outline rounded-lg px-3 py-2 text-sm text-on-surface focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" />
+        <p class="text-[10px] text-primary mt-1">Obtén una clave gratis en <a href="https://www.last.fm/api/account/create" target="_blank" rel="noopener noreferrer" aria-label="Obtén una clave de API de Last.fm (abre en una nueva pestaña)" class="underline hover:text-white focus:outline-none focus:ring-1 focus:ring-primary rounded px-0.5 transition-colors">last.fm/api/account/create</a></p>
+      </div>
+      
+      <button id="btn-save-config" class="w-full bg-primary text-on-primary-fixed font-semibold py-2 rounded-lg text-sm hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-surface-container focus:ring-primary transition-all mt-2 shadow-[0_0_15px_rgba(210,187,255,0.3)]">
+        Guardar y Conectar
+      </button>
+    </div>
+  </section>
+
+  <!-- The OBS Widget (centered) -->
+  <section id="obs-widget" aria-label="Widget de música en reproducción" class="w-widget-width bg-surface-container/90 backdrop-blur-xl border border-white/15 rounded-xl p-inline-gap flex flex-col gap-inline-gap shadow-[0_8px_32px_rgba(0,0,0,0.4)] relative group overflow-hidden">
+    <!-- Subtle gradient background flare -->
+    <div class="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent pointer-events-none"></div>
+    <div class="flex items-center gap-element-gap relative z-10 w-full">
+      <!-- Album Art -->
+      <div class="w-16 h-16 rounded-lg overflow-hidden shrink-0 relative border border-white/5 shadow-[inset_0_0_10px_rgba(255,255,255,0.05)] bg-surface-container">
+        <img id="widget-art" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBn0CuE2hZ5hXTzr17LyM5ShhjY5tCrF4OKR24-KywetaoSqurZnuCqpd9_4wAyeZX0Ulzy7N1BgbxTOpPn8Kb-3oWB1TWf5UKyUd14-ctTmWTVHSkS4DkjQyPtw9p9EBFNMbQrhHvhB1eKlBuRZ_EXKXKD0fp_qGb09YbMwGABqlos6BEfx6uO-9mSrvNqt7t3I4kCSf3wIT_1LEb0Sw2VupbAeEare018RS8Ft0HKQ7pIDZg0A_G5GyBDM-XiI7o5NJZHQueOjS0" alt="Portada del álbum"/>
+        <!-- Inner glow overlay -->
+        <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent pointer-events-none"></div>
+      </div>
+      <!-- Metadata & Controls -->
+      <div class="flex flex-col justify-center flex-1 min-w-0 h-16 py-0.5">
+        <!-- Top Row: Status -->
+        <div class="flex items-center justify-between mb-1">
+          <!-- Status Indicator -->
+          <div class="flex items-center gap-1.5">
+            <div id="eq-container" aria-hidden="true" class="flex items-end gap-[2px] h-2.5 w-3 opacity-30">
+              <div class="w-[2px] bg-secondary rounded-t-sm h-full eq-bar"></div>
+              <div class="w-[2px] bg-secondary rounded-t-sm h-full eq-bar"></div>
+              <div class="w-[2px] bg-secondary rounded-t-sm h-full eq-bar"></div>
+              <div class="w-[2px] bg-secondary rounded-t-sm h-full eq-bar"></div>
+            </div>
+            <span id="widget-status-text" role="status" aria-live="polite" class="font-time-code text-time-code text-on-surface-variant uppercase tracking-widest">Cargando...</span>
+          </div>
+        </div>
+        <!-- Track Info -->
+        <div class="flex flex-col relative w-full overflow-hidden mask-image:linear-gradient(to_right,black_80%,transparent_100%)]">
+          <!-- Scrolling Title -->
+          <div class="w-full overflow-hidden">
+            <div id="widget-title-container" class="font-track-title text-track-title text-on-surface">
+              <span id="widget-title">Sin reproducir</span>
+            </div>
+          </div>
+          <!-- Artist Name -->
+          <div id="widget-artist" class="font-artist-name text-artist-name text-on-surface-variant truncate w-full pr-2">
+            Conecta tu Last.fm
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Progress Bar (Fake smooth animation or empty for simplified OBS) -->
+    <div id="progress-bar-container" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Progreso de la canción" class="w-full h-1 bg-white/35 rounded-full relative z-10 overflow-hidden">
+      <div id="widget-progress" class="absolute left-0 top-0 h-full bg-gradient-to-r from-primary to-secondary rounded-full w-[0%] transition-all duration-1000 ease-linear"></div>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
